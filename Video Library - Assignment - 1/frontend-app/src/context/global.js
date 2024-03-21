@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 const GlobalContext = React.createContext()
 
@@ -31,8 +31,10 @@ const reducer = (state, action) => {
     return state
 }
 
-export const GlobalProvider = ({children}) => {
 
+
+export const GlobalProvider = ({children}) => {
+    
 
     const initialState = {
         videos: [],
@@ -53,14 +55,15 @@ export const GlobalProvider = ({children}) => {
         }
     }
     
-    useEffect(() => {
-        getAllVideos()
-    }, [])
+    // useEffect(() => {
+    //     getAllVideos();
+    // }, [])
 
     return (
         <GlobalContext.Provider value={{
             ...state,
-            getAllVideos
+            getAllVideos,
+           
         }}>
             {children}
         </GlobalContext.Provider>

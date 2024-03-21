@@ -4,7 +4,6 @@ import styled from 'styled-components'
 import { useGlobalContext } from '../context/global'
 import VideoJS from './VideoJS'
 import videojs from 'video.js';
-import { CircleChevronLeft } from 'lucide-react';
 
 import 'videojs-contrib-quality-levels';
 
@@ -24,7 +23,7 @@ function VideoPlayer() {
     const handlePlayerReady = (player) => {
         playerRef.current = player;
 
-        // adding handle player
+        // You can handle player events here, for example:
         player.on('waiting', () => {
         videojs.log('player is waiting');
         });
@@ -34,7 +33,7 @@ function VideoPlayer() {
         });
     };
 
-    // adding video Options
+    //video Options
     const videoOptions = {
         autoplay: false,
         controls: true,
@@ -65,9 +64,9 @@ function VideoPlayer() {
     }
 
     return (
-        <VideoPlayerCom >
+        <VideoPlayerStyled >
             <div className="back">
-                <Link to={'/'}><CircleChevronLeft />Back to Videos</Link>
+                <Link to={'/'}><i className="fas fa-arrow-left"></i>Back to Videos</Link>
             </div>
             <div className="video-container" ref={videoConRef}>
                 <VideoJS options={videoOptions} onReady={handlePlayerReady} />
@@ -76,11 +75,11 @@ function VideoPlayer() {
                 <h4>{video?.title}</h4>
                 <p>{video?.description}</p>
             </div>
-        </VideoPlayerCom>
+        </VideoPlayerStyled>
     )
 }
 
-const VideoPlayerCom = styled.div`
+const VideoPlayerStyled = styled.div`
     width: 100%;
     transition: all .4s ease;
     opacity: 0;
@@ -99,22 +98,22 @@ const VideoPlayerCom = styled.div`
             gap: 1rem;
             transition: all .4s ease;
             &:hover{
-                color: pink;
+                color: #1e90ff;
             }
         }
     }
 
     .video-info{
-        margin-top : 10px
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        background-color : rgba(57, 57, 57, 0.98);
+        background-color: #705DF2;
         padding: 1rem;
         width: 60%;
-        margin-top: 10px;
-        border-radius: 10px;
+        margin: 0 auto;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
         h4{
             color: #F3F0F9;
             font-size: 1.8rem;
@@ -122,7 +121,7 @@ const VideoPlayerCom = styled.div`
         p{
             color: #fff;
             opacity: 0.8;
-           
+            margin-top: .5rem;
         }
     }
 

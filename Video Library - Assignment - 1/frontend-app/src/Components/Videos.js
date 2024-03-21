@@ -1,23 +1,63 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
 import { Link } from 'react-router-dom';
 import styled from 'styled-components'
 import { useGlobalContext } from '../context/global';
+import { Bookmark } from 'lucide-react';
+import {BookContext} from '../context/BookCart'
+import { useEffect } from 'react';
+//import BookmarkComp from './BookmarkComp'
+
 
 function Videos() {
-    const {videos} = useGlobalContext()
+    const {videos,getAllVideos} = useGlobalContext();
+    const [selectedVideos, setSelectedVideos] = useState({});
+    
+ 
 
-    return (
+    useEffect(() => {
+        getAllVideos();
+       
+
+    }, [])
+
+    //context
+     const cart =  useContext(BookContext);
+
+//   console.log(bookmarkedVideos)
+  //()=> cart.setItem([...cart.items, {videoid:video._id, video:video.videoUrl, title:video.title, description:video.description}], )} color="#fff"   
+    const handleBookmarkClick = (video)=>{
+       
+        cart.setItem([...cart.items, {videoid:video._id, video:video.videoUrl, title:video.title, description:video.description}], )
+       console.log("clikc")
+       setSelectedVideos((prevSelected) => ({
+        ...prevSelected,
+        [video._id]: !prevSelected[video._id], // Toggle the selected state for the clicked video
+      }));
+    }  
+
+
+  return (
         <Wrapper>
+        <input type="text" placeholder='search' />
             <div className="videos-container">
                 {videos.map((video) => {
-                    return <Link key={video._id} to={`/videos/${video._id}`}>
-                        <div  className="video">
-                            <video src={video.videoUrl}></video>
+                    return <div  className="video" key={video._id}>
+                        <Link key={video._id} to={`/videos/${video._id}`}><video src={video.videoUrl}></video></Link>
                             <h4>{video.title}</h4>
                             <p>{video.description}</p>
+
+                            <div className="bookmarkIcon" onClick={() => handleBookmarkClick(video)} >
+                            {selectedVideos[video._id] ? (
+                                <Bookmark strokeWidth={0} fill="#fff" />
+                              ) : (
+                                <Bookmark color="#fff" />
+                              )}
+                           
+                                </div>
                         </div>
-                    </Link>
+                   
                 })}
+              
             </div>
         </Wrapper>
     )
@@ -55,6 +95,15 @@ const Wrapper = styled.div`
                 height: auto;
                 object-fit: cover;
                 border-radius: 15px;
+
+            }
+            .bookmarkIcon{
+                margin-left: 400px;
+                margin-bottom: 20px; 
+                width: 30px;
+                height: 30px;
+                cursor: pointer;
+                
             }
             h4{
                 margin-left: 10px;

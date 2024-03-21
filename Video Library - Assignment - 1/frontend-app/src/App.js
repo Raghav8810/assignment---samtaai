@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import Videos from './Components/Videos'
-import { useGlobalContext } from './context/global';
-import {BrowserRouter, Routes, Route } from 'react-router-dom';
+
+import {BrowserRouter, Routes, Route, Link } from 'react-router-dom';
 import VideoPlayer from './Components/VideoPlayer';
 import { useState } from 'react';
 import Upload from './Components/Upload';
 import Button from './Components/Button';
+import Bookmark from './Components/BookmarkComp';
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
     <BrowserRouter>
       <MainStyle className="App">
         <div className="upload">
+        <Link to={'/bookmark'} ><button className='bookmarkBtn'>See your bookmark</button></Link>
           <Button 
             name="Upload"
             icon={<i className="fas fa-plus"></i>}
@@ -25,11 +27,13 @@ function App() {
         {modal && <Upload />}
         <h1>Video Library</h1>
         <Routes>
-          <Route path='/' element={<Videos />} />
+          <Route exact path='/' element={<Videos/>} />
+          <Route exact path='/bookmark' element={<Bookmark/>} />
+
           <Route path='/videos/:id' element={<VideoPlayer />} />
         </Routes>
         {modal && <div className="overlay" onClick={() => setModal(false)}></div>}
-      </MainStyle >
+      </MainStyle>
     </BrowserRouter>
   );
 }
@@ -56,6 +60,17 @@ const MainStyle = styled.div`
     width: 100%;
     height: 100%;
     background: rgba(0,0,0,0.5);
+  }
+  .bookmarkBtn{
+    margin-top: 10px;
+    margin-right: 20px;
+    padding: 3px 20px;
+    outline: none;
+    border: none;
+    color: white;
+    border-radius: 30px;
+    background-color:rgba(0,0,0,0.5);
+    cursor: pointer;
   }
   .upload{
     display: flex;
